@@ -1,6 +1,16 @@
 class ConnectFour
   attr_reader :board, :board_ui, :player1, :player2
   
+  TITLE_BANNER = "\n"\
+  "  /$$$$$$                                                      /$$           /$$   /$$\n"\
+  " /$$__  $$                                                    | $$          | $$  | $$\n"\
+  "| $$  \\__/  /$$$$$$  /$$$$$$$  /$$$$$$$   /$$$$$$   /$$$$$$$ /$$$$$$        | $$  | $$\n"\
+  "| $$       /$$__  $$| $$__  $$| $$__  $$ /$$__  $$ /$$_____/|_  $$_/        | $$$$$$$$\n"\
+  "| $$      | $$  \\ $$| $$  \\ $$| $$  \\ $$| $$$$$$$$| $$        | $$          |_____  $$\n"\
+  "| $$    $$| $$  | $$| $$  | $$| $$  | $$| $$_____/| $$        | $$ /$$            | $$\n"\
+  "|  $$$$$$/|  $$$$$$/| $$  | $$| $$  | $$|  $$$$$$$|  $$$$$$$  |  $$$$/            | $$\n"\
+  " \\______/  \\______/ |__/  |__/|__/  |__/ \\_______/ \\_______/   \\___/              |__/\n"
+
   def initialize
     @board = Array.new(7) {Array.new(6,"⭕")}
     @board_ui = pretty_print
@@ -20,6 +30,16 @@ class ConnectFour
       "#{"⁻"*22}"
   end
 
+  def play
+    puts TITLE_BANNER
+    loop do
+      turn(@player1)
+      turn(@player2)
+      break if game_over?
+    end
+    announce_winner
+  end
+
   def turn(player)
     puts "Player(#{player}) select a column:"
     input = gets.chomp.to_i
@@ -28,6 +48,7 @@ class ConnectFour
       input = gets.chomp.to_i
     end
     make_move(player, input)
+    @board_ui
   end
 
   def make_move(player, column)
@@ -54,6 +75,17 @@ class ConnectFour
   def game_over?
     win?(@player1) || win?(@player2) || board_full?
   end
+
+  def announce_winner
+    if win?(@player1)
+      puts "Player 1 (#{@player1}) wins!"
+    elsif win?(@player2)
+      puts "Player 2 (#{@player1}) wins!"
+    else
+      puts "It's a draw! The board is full"
+    end
+  end
+
 
   def win?(player)
     win_combinations.any? do |combination|

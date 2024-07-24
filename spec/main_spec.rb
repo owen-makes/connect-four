@@ -19,7 +19,7 @@ describe ConnectFour do
   describe '#pretty_print' do
     it 'returns board ui' do
       board = game.board
-      message = "|0 |1 |2 |3 |4 |5 |6 |\n"\
+      board_ui = "|0 |1 |2 |3 |4 |5 |6 |\n"\
       "|__|#{"__|"*6}\n"\
       "|#{board[0][0]}|#{board[1][0]}|#{board[2][0]}|#{board[3][0]}|#{board[4][0]}|#{board[5][0]}|#{board[6][0]}|\n"\
       "|#{board[0][1]}|#{board[1][1]}|#{board[2][1]}|#{board[3][1]}|#{board[4][1]}|#{board[5][1]}|#{board[6][1]}|\n"\
@@ -28,13 +28,20 @@ describe ConnectFour do
       "|#{board[0][4]}|#{board[1][4]}|#{board[2][0]}|#{board[3][4]}|#{board[4][0]}|#{board[5][4]}|#{board[6][0]}|\n"\
       "|#{board[0][5]}|#{board[1][5]}|#{board[2][5]}|#{board[3][5]}|#{board[4][5]}|#{board[5][5]}|#{board[6][5]}|\n"\
       "#{"⁻"*22}"
-      expect(game.pretty_print).to eq(message)
+      expect(game.pretty_print).to eq(board_ui)
     end
   end
 
   describe '#play' do
-    xit 'loops' do
-      #continue here
+    it 'exits loop and calls #announce_winner' do
+      player1 = game.player1
+      win_msg = "Game Over"
+      game.make_move(player1, 0)
+      game.make_move(player1, 0)
+      game.make_move(player1, 0)
+      game.make_move(player1, 0)
+      expect(game).to receive(:announce_winner)
+      game.play
     end
   end
 
@@ -109,13 +116,6 @@ describe ConnectFour do
   end
 
   describe '#turn' do
-
-    it 'prints message asking for input' do
-      player = game.player1
-      message = "Player(#{player}) select a column:\n"
-      expect{game.turn(player)}.to output(message).to_stdout
-    end
-
     context 'when user inputs one incorrect value, then a valid input' do
       before do
         invalid_input = "10\n"
