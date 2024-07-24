@@ -35,6 +35,7 @@ class ConnectFour
     puts @board_ui
     until game_over?
       turn(@player1)
+      break if game_over?
       turn(@player2)
     end
     announce_winner
@@ -81,7 +82,7 @@ class ConnectFour
     if win?(@player1)
       puts "Player 1 (#{@player1}) wins!"
     elsif win?(@player2)
-      puts "Player 2 (#{@player1}) wins!"
+      puts "Player 2 (#{@player2}) wins!"
     else
       puts "It's a draw! The board is full"
     end
