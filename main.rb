@@ -25,17 +25,17 @@ class ConnectFour
       "|#{@board[0][1]}|#{@board[1][1]}|#{@board[2][1]}|#{@board[3][1]}|#{@board[4][1]}|#{@board[5][1]}|#{@board[6][1]}|\n"\
       "|#{@board[0][2]}|#{@board[1][2]}|#{@board[2][2]}|#{@board[3][2]}|#{@board[4][2]}|#{@board[5][2]}|#{@board[6][2]}|\n"\
       "|#{@board[0][3]}|#{@board[1][3]}|#{@board[2][3]}|#{@board[3][3]}|#{@board[4][3]}|#{@board[5][3]}|#{@board[6][3]}|\n"\
-      "|#{@board[0][4]}|#{@board[1][4]}|#{@board[2][0]}|#{@board[3][4]}|#{@board[4][0]}|#{@board[5][4]}|#{@board[6][0]}|\n"\
+      "|#{@board[0][4]}|#{@board[1][4]}|#{@board[2][4]}|#{@board[3][4]}|#{@board[4][4]}|#{@board[5][4]}|#{@board[6][4]}|\n"\
       "|#{@board[0][5]}|#{@board[1][5]}|#{@board[2][5]}|#{@board[3][5]}|#{@board[4][5]}|#{@board[5][5]}|#{@board[6][5]}|\n"\
       "#{"⁻"*22}"
   end
 
   def play
     puts TITLE_BANNER
-    loop do
+    puts @board_ui
+    until game_over?
       turn(@player1)
       turn(@player2)
-      break if game_over?
     end
     announce_winner
   end
@@ -48,7 +48,7 @@ class ConnectFour
       input = gets.chomp.to_i
     end
     make_move(player, input)
-    @board_ui
+    puts pretty_print
   end
 
   def make_move(player, column)
@@ -58,6 +58,7 @@ class ConnectFour
     else
       @board[column][a.rindex("⭕")] = player
     end
+    pretty_print
   end
 
   def verify_input(user_input)
@@ -133,3 +134,6 @@ class ConnectFour
     end
   end
 end
+
+play = ConnectFour.new
+play.play
